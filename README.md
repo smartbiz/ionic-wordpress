@@ -23,47 +23,50 @@
    npm install -g cordova ionic
 ```
 
+iOS Setup Steps
+```bash
+   npm install -g ios-sim
+```
+
 ####3. Start a project
 
 ```bash
    ionic start ionic-wordpress sidemenu
 ```
 
-####4. Configure Platforms
-
 ```bash
-   ___ ionic platform add ios ___
-   ionic platform add android
-```
+   # Setup this project to use Sass: 
+   npm install -g gulp
+   ionic setup sass
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-iOS Setup Steps
-```bash
-   npm install -g ios-sim
-```
-
-=======
->>>>>>> c9af1f3a30d37ebdcc143a4cf80744b3035c7680
-=======
->>>>>>> c9af1f3a30d37ebdcc143a4cf80744b3035c7680
-####5. Test it out
-
-```bash
-   sudo ionic build ios
-```
-
-####6. 
-
-```bash
-   ionic emulate android
+   # Develop in the browser with live reload: 
+   ionic serve
    
+   # Configure Platforms:
+   ionic platform add ios
+   ionic platform add android
+
+   # Build your app: ios || android
+   ionic build <PLATFORM>
+
+   # Simulate your app: ios || android
+   ionic emulate <PLATFORM>
+
+   # Run your app on a device: ios || android
+   ionic run <PLATFORM>
+
+   # Package an app using Ionic package service: ios || android
+   ionic package <MODE> <PLATFORM>
+
+   ionic --help or ionic docs
+```
+
+####4. NOTES
+
+```bash
    sudo chown -R ThanhNguyen /Users/ThanhNguyen/.config/configstore/
    sudo chmod -R 777 '/Users/ThanhNguyen/.config/configstore/update-notifier-cordova.json'
-   ionic emulate ios
-   
 ```
-
 
 ### Changelog
 

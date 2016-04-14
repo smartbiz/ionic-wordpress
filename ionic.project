@@ -1,4 +1,12 @@
 {
   "name": "ionic-wordpress",
-  "app_id": "ee047460"
+  "app_id": "ee047460",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
 }
