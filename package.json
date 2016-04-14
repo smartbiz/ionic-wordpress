@@ -1,7 +1,7 @@
 {
   "name": "ionic-wordpress",
   "version": "1.1.1",
-  "description": "ionic-wordpress: An Ionic project",
+  "description": "Creating a Mobile App for your WordPress-based Business using Ionic Framework (HTML5, CSS3, Cordova).",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
