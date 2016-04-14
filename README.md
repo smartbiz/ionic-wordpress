@@ -7,13 +7,9 @@
 
 > Creating a Mobile App for your WordPress-based Business using Ionic Framework (HTML5, CSS3, Cordova).
 
-# Development Environment
+### Development Environment
 
-<<<<<<< 8f1aaaed822398680aba2ce4cb1855bbf6f20e10
-1. [Node.js](http://nodejs.org) and npm installed. I recommend using [nvm](https://github.com/creationix/nvm). I used nvm v0.31.0, node v4.4.2 & npm 2.14.7
-=======
-##1. [Node.js](http://nodejs.org) and npm installed. I recommend using [nvm](https://github.com/creationix/nvm). I used nvm v0.31.0, node v4.4.2 & npm 2.14.7
->>>>>>> Version 1.0.0
+####1. [Node.js](http://nodejs.org) and npm installed. I recommend using [nvm](https://github.com/creationix/nvm). I used nvm v0.31.0, node v4.4.2 & npm 2.14.7
 
 ```
   xcode-select --install
@@ -21,57 +17,36 @@
   nvm install 4.2.2
 ```
 
-<<<<<<< 8f1aaaed822398680aba2ce4cb1855bbf6f20e10
-2. Install Ionic
-=======
-##2. Install Ionic
->>>>>>> Version 1.0.0
+####2. Install Ionic
 
 ```bash
    npm install -g cordova ionic
 ```
 
-<<<<<<< 8f1aaaed822398680aba2ce4cb1855bbf6f20e10
-3. Start a project
-=======
-##3. Start a project
->>>>>>> Version 1.0.0
+####3. Start a project
 
 ```bash
    ionic start ionic-wordpress sidemenu
 ```
 
-<<<<<<< 8f1aaaed822398680aba2ce4cb1855bbf6f20e10
-4. Configure Platforms
-=======
-##4. Configure Platforms
->>>>>>> Version 1.0.0
+####4. Configure Platforms
 ```bash
    ___ ionic platform add ios ___
    ionic platform add android
 ```
 
-<<<<<<< 8f1aaaed822398680aba2ce4cb1855bbf6f20e10
-5. 
-=======
-##5. 
->>>>>>> Version 1.0.0
+####5. Test it out
 ```bash
    ionic build ios
    ionic platform add android
 ```
 
-<<<<<<< 8f1aaaed822398680aba2ce4cb1855bbf6f20e10
-=======
-##6. Test it out
+####6. 
 ```bash
-   ionic build ios
-   ionic emulate ios
 ```
 
 
->>>>>>> Version 1.0.0
-# Changelog
+### Changelog
 
-## Version 1.0.0
+#### Version 1.0.0
 - 1st Initial
