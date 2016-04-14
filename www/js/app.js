@@ -32,6 +32,32 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     controller: 'AppCtrl'
   })
 
+  .state('app.contact', {
+    url: "/contact",
+    views: {
+      'menuContent': {
+        templateUrl: "views/app/contact.html",
+        controller: 'ContactCtrl'
+      }
+    },
+    data: {
+      authenticate: true
+    }
+  })
+
+  .state('app.settings', {
+    url: "/settings",
+    views: {
+      'menuContent': {
+        templateUrl: "views/app/settings.html",
+        controller: 'SettingCtrl'
+      }
+    },
+    data: {
+      authenticate: true
+    }
+  })
+
   .state('app.search', {
     url: '/search',
     views: {
@@ -49,6 +75,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         }
       }
     })
+
     .state('app.playlists', {
       url: '/playlists',
       views: {

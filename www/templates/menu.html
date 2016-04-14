@@ -12,6 +12,7 @@
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
+  <!--
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable">
       <h1 class="title">Left</h1>
@@ -33,4 +34,37 @@
       </ion-list>
     </ion-content>
   </ion-side-menu>
+  -->
+
+  <ion-side-menu side="left">
+    <ion-header-bar class="bar-stable">
+      <h1 class="title">Ionic Wordpress</h1>
+    </ion-header-bar>
+    <ion-content>
+      <ion-list>
+        <ion-item class="item item-icon-left" nav-clear menu-close ui-sref="app.home">
+          <i class="icon ion-quote"></i>
+          <h2 class="menu-text">Recent posts</h2>
+        </ion-item>
+        <ion-item class="item item-icon-left" nav-clear menu-close ui-sref="app.bookmarks">
+          <i class="icon ion-bookmark"></i>
+          <h2 class="menu-text">Saved for later</h2>
+        </ion-item>
+        <ion-item class="item item-icon-left" nav-clear menu-close ui-sref="app.page">
+          <i class="icon ion-social-wordpress"></i>
+          <h2 class="menu-text">Wordpress Page</h2>
+        </ion-item>
+        <ion-item class="item item-icon-left" nav-clear menu-close ui-sref="app.contact">
+          <i class="icon ion-location"></i>
+          <h2 class="menu-text">Contact</h2>
+        </ion-item>
+        <ion-item class="item item-icon-left" nav-clear menu-close ui-sref="app.settings">
+          <i class="icon ion-gear-a"></i>
+          <h2 class="greeting">My settings</h2>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+
 </ion-side-menus>
+
