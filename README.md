@@ -30,18 +30,21 @@
 ```
 
 ####4. Configure Platforms
+
 ```bash
    ___ ionic platform add ios ___
    ionic platform add android
 ```
 
 ####5. Test it out
+
 ```bash
    ionic build ios
    ionic platform add android
 ```
 
 ####6. 
+
 ```bash
 ```
 
