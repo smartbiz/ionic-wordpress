@@ -37,11 +37,14 @@
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 iOS Setup Steps
 ```bash
    npm install -g ios-sim
 ```
 
+=======
+>>>>>>> c9af1f3a30d37ebdcc143a4cf80744b3035c7680
 =======
 >>>>>>> c9af1f3a30d37ebdcc143a4cf80744b3035c7680
 ####5. Test it out
