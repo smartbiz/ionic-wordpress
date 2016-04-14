@@ -9,7 +9,11 @@
 
 ### Development Environment
 
+<<<<<<< HEAD
 ####1. [Node.js](http://nodejs.org) and npm installed. I recommend using [nvm](https://github.com/creationix/nvm). I used nvm v0.31.0, node v4.4.2 & npm 2.14.7
+=======
+##1. [Node.js](http://nodejs.org) and npm installed. I recommend using [nvm](https://github.com/creationix/nvm). I used nvm v0.31.0, node v4.4.2 & npm 2.14.7
+>>>>>>> 745825db5f269bf58d53d8238a1fa7dccf438178
 
 ```
   xcode-select --install
@@ -17,36 +21,60 @@
   nvm install 4.2.2
 ```
 
+<<<<<<< HEAD
 ####2. Install Ionic
+=======
+##2. Install Ionic
+>>>>>>> 745825db5f269bf58d53d8238a1fa7dccf438178
 
 ```bash
    npm install -g cordova ionic
 ```
 
+<<<<<<< HEAD
 ####3. Start a project
+=======
+##3. Start a project
+>>>>>>> 745825db5f269bf58d53d8238a1fa7dccf438178
 
 ```bash
    ionic start ionic-wordpress sidemenu
 ```
 
+<<<<<<< HEAD
 ####4. Configure Platforms
+=======
+##4. Configure Platforms
+>>>>>>> 745825db5f269bf58d53d8238a1fa7dccf438178
 ```bash
    ___ ionic platform add ios ___
    ionic platform add android
 ```
 
+<<<<<<< HEAD
 ####5. Test it out
+=======
+##5. 
+>>>>>>> 745825db5f269bf58d53d8238a1fa7dccf438178
 ```bash
    ionic build ios
    ionic platform add android
 ```
 
+<<<<<<< HEAD
 ####6. 
+=======
+##6. Test it out
+>>>>>>> 745825db5f269bf58d53d8238a1fa7dccf438178
 ```bash
 ```
 
 
+<<<<<<< HEAD
 ### Changelog
+=======
+# Changelog
+>>>>>>> 745825db5f269bf58d53d8238a1fa7dccf438178
 
 #### Version 1.0.0
 - 1st Initial
