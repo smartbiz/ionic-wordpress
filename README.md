@@ -36,16 +36,29 @@
    ionic platform add android
 ```
 
+<<<<<<< HEAD
+iOS Setup Steps
+```bash
+   npm install -g ios-sim
+```
+
+=======
+>>>>>>> c9af1f3a30d37ebdcc143a4cf80744b3035c7680
 ####5. Test it out
 
 ```bash
-   ionic build ios
-   ionic platform add android
+   sudo ionic build ios
 ```
 
 ####6. 
 
 ```bash
+   ionic emulate android
+   
+   sudo chown -R ThanhNguyen /Users/ThanhNguyen/.config/configstore/
+   sudo chmod -R 777 '/Users/ThanhNguyen/.config/configstore/update-notifier-cordova.json'
+   ionic emulate ios
+   
 ```
 
 
