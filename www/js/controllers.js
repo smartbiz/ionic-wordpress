@@ -1,45 +1,77 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+// APP - RIGHT MENU
+.controller('AppCtrl', function($scope, AuthService) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+  $scope.$on('$ionicView.enter', function() {
+    // Refresh user data & avatar
+    $scope.user = AuthService.getUser();
+  });
+})
 
-  // Form data for the login modal
-  $scope.loginData = {};
+// CATEGORIES MENU
+.controller('PushMenuCtrl', function($scope, Categories) {
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
+  var getItems = function(parents, categories) {
+
+    if (parents.length > 0) {
+
+      _.each(parents, function(parent) {
+        parent.name = parent.title;
+        parent.link = parent.slug;
+
+        var items = _.filter(categories, function(category) {
+          return category.parent === parent.id;
+        });
+
+        if (items.length > 0) {
+          parent.menu = {
+            title: parent.title,
+            id: parent.id,
+            items: items
+          };
+          getItems(parent.menu.items, categories);
+        }
+      });
+    }
+    return parents;
+  };
+
+  Categories.getCategories()
+    .then(function(data) {
+      var sorted_categories = _.sortBy(data.categories, function(category) {
+        return category.title;
+      });
+      var parents = _.filter(sorted_categories, function(category) {
+        return category.parent === 0;
+      });
+      var result = getItems(parents, sorted_categories);
+
+      $scope.menu = {
+        title: 'All Categories',
+        id: '0',
+        items: result
+      };
+    });
+})
+
+
+// BOOKMARKS
+.controller('BookMarksCtrl', function($scope, $rootScope, BookMarkService) {
+
+  $scope.bookmarks = BookMarkService.getBookmarks();
+
+  // When a new post is bookmarked, we should update bookmarks list
+  $rootScope.$on("new-bookmark", function(event, post_id) {
+    $scope.bookmarks = BookMarkService.getBookmarks();
   });
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+  $scope.remove = function(bookmarkId) {
+    BookMarkService.remove(bookmarkId);
+    $scope.bookmarks = BookMarkService.getBookmarks();
   };
 })
+
 
 // CONTACT
 .controller('ContactCtrl', function($scope) {
@@ -53,44 +85,6 @@ angular.module('starter.controllers', [])
   $scope.$on('mapInitialized', function(event, map) {
     $scope.map = map;
   });
-})
-
-//EMAIL SENDER
-.controller('EmailSenderCtrl', function($scope, $cordovaEmailComposer) {
-
-  $scope.sendFeedback = function() {
-    cordova.plugins.email.isAvailable(
-      function(isAvailable) {
-        // alert('Service is not available') unless isAvailable;
-        cordova.plugins.email.open({
-          to: 'john@doe.com',
-          cc: 'jane@doe.com',
-          subject: 'Feedback',
-          body: 'This app is awesome'
-        });
-      }
-    );
-  };
-
-  $scope.sendContactMail = function() {
-    //Plugin documentation here: http://ngcordova.com/docs/plugins/emailComposer/
-
-    $cordovaEmailComposer.isAvailable().then(function() {
-      // is available
-      $cordovaEmailComposer.open({
-          to: 'john@doe.com',
-          cc: 'sally@doe.com',
-          subject: 'Contact from ionWordpress',
-          body: 'How are you? Nice greetings from Uruguay'
-        })
-        .then(null, function() {
-          // user cancelled email
-        });
-    }, function() {
-      // not available
-    });
-  };
-
 })
 
 // SETTINGS
@@ -163,16 +157,405 @@ angular.module('starter.controllers', [])
   };
 })
 
-// .controller('PlaylistsCtrl', function($scope) {
-//   $scope.playlists = [
-//     { title: 'Reggae', id: 1 },
-//     { title: 'Chill', id: 2 },
-//     { title: 'Dubstep', id: 3 },
-//     { title: 'Indie', id: 4 },
-//     { title: 'Rap', id: 5 },
-//     { title: 'Cowbell', id: 6 }
-//   ];
-// })
-//
-// .controller('PlaylistCtrl', function($scope, $stateParams) {
-// });
+//EMAIL SENDER
+.controller('EmailSenderCtrl', function($scope, $cordovaEmailComposer) {
+
+  $scope.sendFeedback = function() {
+    cordova.plugins.email.isAvailable(
+      function(isAvailable) {
+        // alert('Service is not available') unless isAvailable;
+        cordova.plugins.email.open({
+          to: 'john@doe.com',
+          cc: 'jane@doe.com',
+          subject: 'Feedback',
+          body: 'This app is awesome'
+        });
+      }
+    );
+  };
+
+  $scope.sendContactMail = function() {
+    //Plugin documentation here: http://ngcordova.com/docs/plugins/emailComposer/
+
+    $cordovaEmailComposer.isAvailable().then(function() {
+      // is available
+      $cordovaEmailComposer.open({
+          to: 'john@doe.com',
+          cc: 'sally@doe.com',
+          subject: 'Contact from ionWordpress',
+          body: 'How are you? Nice greetings from Uruguay'
+        })
+        .then(null, function() {
+          // user cancelled email
+        });
+    }, function() {
+      // not available
+    });
+  };
+
+})
+
+
+// RATE THIS APP
+.controller('RateAppCtrl', function($scope) {
+
+  $scope.rateApp = function() {
+    if (ionic.Platform.isIOS()) {
+      AppRate.preferences.storeAppURL.ios = '<my_app_id>';
+      AppRate.promptForRating(true);
+    } else if (ionic.Platform.isAndroid()) {
+      AppRate.preferences.storeAppURL.android = 'market://details?id=<package_name>';
+      AppRate.promptForRating(true);
+    }
+  };
+})
+
+
+//ADMOB
+.controller('AdmobCtrl', function($scope, $ionicActionSheet, AdMob) {
+
+  $scope.manageAdMob = function() {
+
+    // Show the action sheet
+    var hideSheet = $ionicActionSheet.show({
+      //Here you can add some more buttons
+      buttons: [{
+        text: 'Show AdMob Banner'
+      }, {
+        text: 'Show AdMob Interstitial'
+      }],
+      destructiveText: 'Remove Ads',
+      titleText: 'Choose the ad to show',
+      cancelText: 'Cancel',
+      cancel: function() {
+        // add cancel code..
+      },
+      destructiveButtonClicked: function() {
+        console.log("removing ads");
+        AdMob.removeAds();
+        return true;
+      },
+      buttonClicked: function(index, button) {
+        if (button.text == 'Show AdMob Banner') {
+          console.log("show AdMob banner");
+          AdMob.showBanner();
+        }
+        if (button.text == 'Show AdMob Interstitial') {
+          console.log("show AdMob interstitial");
+          AdMob.showInterstitial();
+        }
+        return true;
+      }
+    });
+  };
+})
+
+
+//IAD
+.controller('iAdCtrl', function($scope, $ionicActionSheet, iAd) {
+
+  $scope.manageiAd = function() {
+
+    // Show the action sheet
+    var hideSheet = $ionicActionSheet.show({
+      //Here you can add some more buttons
+      buttons: [{
+        text: 'Show iAd Banner'
+      }, {
+        text: 'Show iAd Interstitial'
+      }],
+      destructiveText: 'Remove Ads',
+      titleText: 'Choose the ad to show - Interstitial only works in iPad',
+      cancelText: 'Cancel',
+      cancel: function() {
+        // add cancel code..
+      },
+      destructiveButtonClicked: function() {
+        console.log("removing ads");
+        iAd.removeAds();
+        return true;
+      },
+      buttonClicked: function(index, button) {
+        if (button.text == 'Show iAd Banner') {
+          console.log("show iAd banner");
+          iAd.showBanner();
+        }
+        if (button.text == 'Show iAd Interstitial') {
+          console.log("show iAd interstitial");
+          iAd.showInterstitial();
+        }
+        return true;
+      }
+    });
+  };
+})
+
+
+// WALKTHROUGH
+.controller('WalkthroughCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+
+  $scope.$on('$ionicView.enter', function() {
+    //this is to fix ng-repeat slider width:0px;
+    $ionicSlideBoxDelegate.$getByHandle('walkthrough-slider').update();
+  });
+})
+
+//LOGIN
+.controller('LoginCtrl', function($scope, $state, $ionicLoading, AuthService, PushNotificationsService) {
+  $scope.user = {};
+
+  $scope.doLogin = function() {
+
+    $ionicLoading.show({
+      template: 'Loging in...'
+    });
+
+    var user = {
+      userName: $scope.user.userName,
+      password: $scope.user.password
+    };
+
+    AuthService.doLogin(user)
+      .then(function(user) {
+        //success
+        $state.go('app.home');
+
+        $ionicLoading.hide();
+      }, function(err) {
+        //err
+        $scope.error = err;
+        $ionicLoading.hide();
+      });
+  };
+})
+
+
+// FORGOT PASSWORD
+.controller('ForgotPasswordCtrl', function($scope, $state, $ionicLoading, AuthService) {
+  $scope.user = {};
+
+  $scope.recoverPassword = function() {
+
+    $ionicLoading.show({
+      template: 'Recovering password...'
+    });
+
+    AuthService.doForgotPassword($scope.user.userName)
+      .then(function(data) {
+        if (data.status == "error") {
+          $scope.error = data.error;
+        } else {
+          $scope.message = "Link for password reset has been emailed to you. Please check your email.";
+        }
+        $ionicLoading.hide();
+      });
+  };
+})
+
+
+// REGISTER
+.controller('RegisterCtrl', function($scope, $state, $ionicLoading, AuthService, PushNotificationsService) {
+  $scope.user = {};
+
+  $scope.doRegister = function() {
+
+    $ionicLoading.show({
+      template: 'Registering user...'
+    });
+
+    var user = {
+      userName: $scope.user.userName,
+      password: $scope.user.password,
+      email: $scope.user.email,
+      displayName: $scope.user.displayName
+    };
+
+    AuthService.doRegister(user)
+      .then(function(user) {
+        //success
+        $state.go('app.home');
+        $ionicLoading.hide();
+      }, function(err) {
+        //err
+        $scope.error = err;
+        $ionicLoading.hide();
+      });
+  };
+})
+
+// HOME - GET RECENT POSTS
+.controller('HomeCtrl', function($scope, $rootScope, $state, $ionicLoading, PostService) {
+  $scope.posts = [];
+  $scope.page = 1;
+  $scope.totalPages = 1;
+
+  $scope.doRefresh = function() {
+    $ionicLoading.show({
+      template: 'Loading posts...'
+    });
+
+    //Always bring me the latest posts => page=1
+    PostService.getRecentPosts(1)
+      .then(function(data) {
+
+        $scope.totalPages = data.pages;
+        $scope.posts = PostService.shortenPosts(data.posts);
+
+        $ionicLoading.hide();
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+  };
+
+  $scope.loadMoreData = function() {
+    $scope.page += 1;
+
+    PostService.getRecentPosts($scope.page)
+      .then(function(data) {
+        //We will update this value in every request because new posts can be created
+        $scope.totalPages = data.pages;
+        var new_posts = PostService.shortenPosts(data.posts);
+        $scope.posts = $scope.posts.concat(new_posts);
+
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+  };
+
+  $scope.moreDataCanBeLoaded = function() {
+    return $scope.totalPages > $scope.page;
+  };
+
+  $scope.sharePost = function(link) {
+    PostService.sharePost(link);
+  };
+
+  $scope.bookmarkPost = function(post) {
+    $ionicLoading.show({
+      template: 'Post Saved!',
+      noBackdrop: true,
+      duration: 1000
+    });
+    PostService.bookmarkPost(post);
+  };
+
+  $scope.doRefresh();
+
+})
+
+
+// POST
+.controller('PostCtrl', function($scope, post_data, $ionicLoading, PostService, AuthService, $ionicScrollDelegate) {
+  $scope.post = post_data.post;
+  $scope.comments = _.map(post_data.post.comments, function(comment) {
+    if (comment.author) {
+      PostService.getUserGravatar(comment.author.id)
+        .then(function(avatar) {
+          comment.user_gravatar = avatar;
+        });
+      return comment;
+    } else {
+      return comment;
+    }
+  });
+  $ionicLoading.hide();
+
+  $scope.sharePost = function(link) {
+    window.plugins.socialsharing.share('Check this post here: ', null, null, link);
+  };
+
+  $scope.addComment = function() {
+
+    $ionicLoading.show({
+      template: 'Submiting comment...'
+    });
+
+    PostService.submitComment($scope.post.id, $scope.new_comment)
+      .then(function(data) {
+        if (data.status == "ok") {
+          var user = AuthService.getUser();
+
+          var comment = {
+            author: {
+              name: user.data.username
+            },
+            content: $scope.new_comment,
+            date: Date.now(),
+            user_gravatar: user.avatar,
+            id: data.comment_id
+          };
+          $scope.comments.push(comment);
+          $scope.new_comment = "";
+          $scope.new_comment_id = data.comment_id;
+          $ionicLoading.hide();
+          // Scroll to new post
+          $ionicScrollDelegate.scrollBottom(true);
+        }
+      });
+  };
+})
+
+
+// CATEGORY
+.controller('PostCategoryCtrl', function($scope, $rootScope, $state, $ionicLoading, $stateParams, PostService) {
+
+  $scope.category = {};
+  $scope.category.id = $stateParams.categoryId;
+  $scope.category.title = $stateParams.categoryTitle;
+
+  $scope.posts = [];
+  $scope.page = 1;
+  $scope.totalPages = 1;
+
+  $scope.doRefresh = function() {
+    $ionicLoading.show({
+      template: 'Loading posts...'
+    });
+
+    PostService.getPostsFromCategory($scope.category.id, 1)
+      .then(function(data) {
+        $scope.totalPages = data.pages;
+        $scope.posts = PostService.shortenPosts(data.posts);
+
+        $ionicLoading.hide();
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+  };
+
+  $scope.loadMoreData = function() {
+    $scope.page += 1;
+
+    PostService.getRecentPosts($scope.category.id, $scope.page)
+      .then(function(data) {
+        //We will update this value in every request because new posts can be created
+        $scope.totalPages = data.pages;
+        var new_posts = PostService.shortenPosts(data.posts);
+        $scope.posts = $scope.posts.concat(new_posts);
+
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+      });
+  };
+
+  $scope.moreDataCanBeLoaded = function() {
+    return $scope.totalPages > $scope.page;
+  };
+
+  $scope.sharePost = function(link) {
+    PostService.sharePost(link);
+  };
+
+  $scope.bookmarkPost = function(post) {
+    $ionicLoading.show({
+      template: 'Post Saved!',
+      noBackdrop: true,
+      duration: 1000
+    });
+    PostService.bookmarkPost(post);
+  };
+
+  $scope.doRefresh();
+})
+
+
+// WP PAGE
+.controller('PageCtrl', function($scope, page_data) {
+  $scope.page = page_data.page;
+});

@@ -1,0 +1,10 @@
+<ion-view class="wordpress-page-view">
+  <ion-nav-title>
+    <span>{{page.title}}</span>
+  </ion-nav-title>
+  <ion-content>
+    <div class="page-content-outer" post-content>
+      <div class="page-content" dynamic-anchor-fix ng-bind-html="page.content | rawHtml"></div>
+    </div>
+  </ion-content>
+</ion-view>
