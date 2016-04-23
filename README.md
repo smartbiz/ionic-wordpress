@@ -56,6 +56,10 @@
 ### Changelog
 
 #### Version 1.2.0
+> Online Wordpress Demo (Lazada-style)
+> Build with IBM MobileFirst --> iOS & Android Native
+> Improvement: SaaS, Font Icons, Maps
+> Documentation
 
 #### Version 1.1.1
 1st Initial
