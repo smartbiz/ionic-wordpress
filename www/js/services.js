@@ -513,6 +513,7 @@ angular.module('starter.services', [])
 		$http.jsonp(WORDPRESS_API_URL + 'user/generate_auth_cookie/' +
 				'?username=' + username +
 				'&password=' + password +
+				'&insecure=cool'+
 				'&nonce=' + nonce +
 				'&callback=JSON_CALLBACK')
 			.success(function(data) {
